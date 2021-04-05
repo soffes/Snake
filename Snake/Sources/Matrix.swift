@@ -2,8 +2,6 @@ struct Matrix<Element> {
 
 	// MARK: - Types
 
-	typealias Coordinate = (Int, Int)
-
 	struct Row: Identifiable {
 		var index: Int
 
@@ -17,7 +15,7 @@ struct Matrix<Element> {
 		var element: Element
 
 		var id: String {
-			"Cell \(coordinate.0),\(coordinate.1)"
+			"Cell \(coordinate.x),\(coordinate.y)"
 		}
 	}
 
@@ -43,13 +41,13 @@ struct Matrix<Element> {
 
 	// MARK: - Subscript
 
-	subscript(_ x: Int, _ y: Int) -> Element {
+	subscript(_ coordinate: Coordinate) -> Element {
 		get {
-			elements[x][y]
+			elements[coordinate.y][coordinate.x]
 		}
 
 		set(newValue) {
-			elements[x][y] = newValue
+			elements[coordinate.y][coordinate.x] = newValue
 		}
 	}
 
@@ -57,7 +55,7 @@ struct Matrix<Element> {
 
 	func cells(inRow y: Int) -> [Cell<Element>] {
 		elements[y].enumerated().map { x, element in
-			Cell(coordinate: (x, y), element: element)
+			Cell(coordinate: Coordinate(x: x, y: y), element: element)
 		}
 	}
 }

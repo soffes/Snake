@@ -12,6 +12,8 @@
 		21F538C4261BD042002F7754 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21F538C3261BD042002F7754 /* Assets.xcassets */; };
 		21F538C7261BD042002F7754 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21F538C6261BD042002F7754 /* Preview Assets.xcassets */; };
 		21FB4EE2261BD13700636B97 /* Matrix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB4EE1261BD13700636B97 /* Matrix.swift */; };
+		21FB4EE4261BD5ED00636B97 /* SnakeGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB4EE3261BD5ED00636B97 /* SnakeGame.swift */; };
+		21FB4EE6261BD70B00636B97 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21FB4EE5261BD70B00636B97 /* Coordinate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,8 @@
 		21F538C8261BD042002F7754 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		21F538C9261BD042002F7754 /* Snake.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Snake.entitlements; sourceTree = "<group>"; };
 		21FB4EE1261BD13700636B97 /* Matrix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Matrix.swift; sourceTree = "<group>"; };
+		21FB4EE3261BD5ED00636B97 /* SnakeGame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeGame.swift; sourceTree = "<group>"; };
+		21FB4EE5261BD70B00636B97 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,13 +59,9 @@
 		21F538BE261BD041002F7754 /* Snake */ = {
 			isa = PBXGroup;
 			children = (
-				21F538BF261BD041002F7754 /* SnakeApp.swift */,
-				21F538C1261BD041002F7754 /* ContentView.swift */,
-				21F538C3261BD042002F7754 /* Assets.xcassets */,
-				21F538C8261BD042002F7754 /* Info.plist */,
-				21F538C9261BD042002F7754 /* Snake.entitlements */,
-				21F538C5261BD042002F7754 /* Preview Content */,
-				21FB4EE1261BD13700636B97 /* Matrix.swift */,
+				21FB4EE7261BD71300636B97 /* Sources */,
+				21FB4EE8261BD71D00636B97 /* Resources */,
+				21FB4EE9261BD72500636B97 /* Support */,
 			);
 			path = Snake;
 			sourceTree = "<group>";
@@ -72,6 +72,36 @@
 				21F538C6261BD042002F7754 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		21FB4EE7261BD71300636B97 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				21F538BF261BD041002F7754 /* SnakeApp.swift */,
+				21F538C1261BD041002F7754 /* ContentView.swift */,
+				21FB4EE1261BD13700636B97 /* Matrix.swift */,
+				21FB4EE3261BD5ED00636B97 /* SnakeGame.swift */,
+				21FB4EE5261BD70B00636B97 /* Coordinate.swift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		21FB4EE8261BD71D00636B97 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				21F538C3261BD042002F7754 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		21FB4EE9261BD72500636B97 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				21F538C8261BD042002F7754 /* Info.plist */,
+				21F538C9261BD042002F7754 /* Snake.entitlements */,
+				21F538C5261BD042002F7754 /* Preview Content */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,9 +173,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				21FB4EE4261BD5ED00636B97 /* SnakeGame.swift in Sources */,
 				21F538C2261BD041002F7754 /* ContentView.swift in Sources */,
 				21F538C0261BD041002F7754 /* SnakeApp.swift in Sources */,
 				21FB4EE2261BD13700636B97 /* Matrix.swift in Sources */,
+				21FB4EE6261BD70B00636B97 /* Coordinate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,14 +304,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Snake/Snake.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Snake/Support/Snake.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Snake/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Snake/Support/Preview Content\"";
 				DEVELOPMENT_TEAM = LHDXBG4XBK;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Snake/Info.plist;
+				INFOPLIST_FILE = Snake/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -296,14 +328,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Snake/Snake.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Snake/Support/Snake.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_ASSET_PATHS = "\"Snake/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"Snake/Support/Preview Content\"";
 				DEVELOPMENT_TEAM = LHDXBG4XBK;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
-				INFOPLIST_FILE = Snake/Info.plist;
+				INFOPLIST_FILE = Snake/Support/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
