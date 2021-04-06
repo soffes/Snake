@@ -29,21 +29,29 @@ struct SnakeGame {
 	// MARK: - Properties
 
 	private(set) var matrix: Matrix<Thing>
-	private var position: Coordinate
+	private(set) var score = 0
+	private var position: Coordinate {
+		willSet {
+			moveFrom(position)
+		}
+
+		didSet {
+			moveTo(position)
+		}
+	}
 
 	// MARK: - Initializers
 
 	init(width: Int, height: Int) {
 		matrix = Matrix(rows: height, columns: width, defaultValue: Thing.empty)
 		position = Coordinate(x: width / 2, y: height / 2)
-		matrix[position] = .snakeHead
+		matrix[3, 3] = .fruit
+		moveTo(position)
 	}
 
 	// MARK: - Movement
 
 	mutating func move(_ direction: Direction) {
-		matrix[position] = .empty
-
 		switch direction {
 		case .north:
 			position.y = max(0, position.y - 1)
@@ -57,7 +65,17 @@ struct SnakeGame {
 		case .west:
 			position.x = max(0, position.x - 1)
 		}
+	}
 
-		matrix[position] = .snakeHead
+	private mutating func moveFrom(_ position: Coordinate) {
+		matrix[position] = .empty
+	}
+
+	private mutating func moveTo(_ position: Coordinate) {
+		if matrix[position] == .fruit {
+			score += 1
+		}
+
+ 		matrix[position] = .snakeHead
 	}
 }

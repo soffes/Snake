@@ -43,11 +43,21 @@ struct Matrix<Element> {
 
 	subscript(_ coordinate: Coordinate) -> Element {
 		get {
-			elements[coordinate.y][coordinate.x]
+			self[coordinate.x, coordinate.y]
 		}
 
 		set(newValue) {
-			elements[coordinate.y][coordinate.x] = newValue
+			self[coordinate.x, coordinate.y] = newValue
+		}
+	}
+
+	subscript(_ x: Int, y: Int) -> Element {
+		get {
+			elements[y][x]
+		}
+
+		set(newValue) {
+			elements[y][x] = newValue
 		}
 	}
 
