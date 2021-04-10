@@ -4,78 +4,106 @@ struct SnakeGame {
 
 	enum Thing {
 		case empty
-		case snakeHead
-		case snakeBody
-		case snakeTail
+		case snake
 		case fruit
-
-		var isSnake: Bool {
-			switch self {
-			case .snakeHead, .snakeBody, .snakeTail:
-				return true
-			default:
-				return false
-			}
-		}
-	}
-
-	enum Direction {
-		case north
-		case east
-		case south
-		case west
 	}
 
 	// MARK: - Properties
 
 	private(set) var matrix: Matrix<Thing>
 	private(set) var score = 0
-	private var position: Coordinate {
-		willSet {
-			moveFrom(position)
-		}
 
-		didSet {
-			moveTo(position)
-		}
-	}
+	private var currentDirection: Direction = .west
+
+	/// Snake coordinates. `first` is the head and `last` is the tail
+	var snakeCoordinates: [Coordinate]
 
 	// MARK: - Initializers
 
 	init(width: Int, height: Int) {
 		matrix = Matrix(rows: height, columns: width, defaultValue: Thing.empty)
-		position = Coordinate(x: width / 2, y: height / 2)
-		matrix[3, 3] = .fruit
-		moveTo(position)
+
+		let center = Coordinate(x: width / 2, y: height / 2)
+		snakeCoordinates = [center, Coordinate(x: center.x + 1, y: center.y)]
+		snakeCoordinates.forEach { matrix[$0] = .snake }
+
+		generateFruit()
 	}
 
-	// MARK: - Movement
+	// MARK: - Manipulation
 
-	mutating func move(_ direction: Direction) {
-		switch direction {
+	mutating func tick() {
+		moveSnake(currentDirection)
+
+		// Check for collisions with either fruit, snake, or wall
+
+		// If fruit, increase score, grow snake, and spawn new fruit
+	}
+
+	mutating func changeDirection(_ direction: Direction) {
+		currentDirection = direction
+	}
+
+	// MARK: - Private
+
+	private mutating func moveSnake(_ direction: Direction) {
+		guard let head = snakeCoordinates.first, let tail = snakeCoordinates.popLast() else {
+			assertionFailure("Missing snake extremities")
+			return
+		}
+
+		var newHead = head
+		switch currentDirection {
 		case .north:
-			position.y = max(0, position.y - 1)
-
+			newHead.y -= 1
 		case .east:
-			position.x = min(matrix.numberOfColumns - 1, position.x + 1)
-
+			newHead.x += 1
 		case .south:
-			position.y = min(matrix.numberOfRows - 1, position.y + 1)
-
+			newHead.y += 1
 		case .west:
-			position.x = max(0, position.x - 1)
+			newHead.x -= 1
 		}
-	}
 
-	private mutating func moveFrom(_ position: Coordinate) {
-		matrix[position] = .empty
-	}
+		if !inBounds(newHead) {
+			die()
+			return
+		}
 
-	private mutating func moveTo(_ position: Coordinate) {
-		if matrix[position] == .fruit {
+		switch matrix[newHead] {
+		case .fruit:
 			score += 1
+			generateFruit()
+		case .snake:
+			die()
+			return
+		case .empty:
+			break
 		}
 
- 		matrix[position] = .snakeHead
+		matrix[tail] = .empty
+
+		snakeCoordinates.insert(newHead, at: 0)
+		matrix[newHead] = .snake
+	}
+
+	private mutating func generateFruit() {
+		let coordinate = Coordinate(x: Int.random(in: 0..<matrix.numberOfColumns),
+									y: Int.random(in: 0..<matrix.numberOfRows))
+
+		if matrix[coordinate] != .empty {
+			generateFruit()
+			return
+		}
+
+		matrix[coordinate] = .fruit
+	}
+
+	private func inBounds(_ coordinate: Coordinate) -> Bool {
+		coordinate.x > 0 && coordinate.y > 0 && coordinate.x < matrix.numberOfColumns &&
+			coordinate.y < matrix.numberOfRows
+	}
+
+	private func die() {
+		print("you're dead")
 	}
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21C9F569262162E100E2B17C /* Direction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C9F568262162E100E2B17C /* Direction.swift */; };
 		21F538C0261BD041002F7754 /* SnakeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F538BF261BD041002F7754 /* SnakeApp.swift */; };
 		21F538C2261BD041002F7754 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21F538C1261BD041002F7754 /* GameView.swift */; };
 		21F538C4261BD042002F7754 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21F538C3261BD042002F7754 /* Assets.xcassets */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		21C9F568262162E100E2B17C /* Direction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Direction.swift; sourceTree = "<group>"; };
 		21F538BC261BD041002F7754 /* Snake.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Snake.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21F538BF261BD041002F7754 /* SnakeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnakeApp.swift; sourceTree = "<group>"; };
 		21F538C1261BD041002F7754 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				21FB4EE1261BD13700636B97 /* Matrix.swift */,
 				21FB4EE3261BD5ED00636B97 /* SnakeGame.swift */,
 				21FB4EE5261BD70B00636B97 /* Coordinate.swift */,
+				21C9F568262162E100E2B17C /* Direction.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -178,6 +181,7 @@
 				21F538C0261BD041002F7754 /* SnakeApp.swift in Sources */,
 				21FB4EE2261BD13700636B97 /* Matrix.swift in Sources */,
 				21FB4EE6261BD70B00636B97 /* Coordinate.swift in Sources */,
+				21C9F569262162E100E2B17C /* Direction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

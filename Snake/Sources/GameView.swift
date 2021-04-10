@@ -6,7 +6,7 @@ extension SnakeGame.Thing {
 		case .empty:
 			return nil
 
-		case .snakeHead, .snakeBody, .snakeTail:
+		case .snake:
 			return Color.green
 
 		case .fruit:
@@ -35,22 +35,26 @@ struct GameView: View {
 
 			HStack {
 				Button("↑") {
-					game.move(.north)
+					game.changeDirection(.north)
 				}.keyboardShortcut(.upArrow)
 
 				Button("→") {
-					game.move(.east)
+					game.changeDirection(.east)
 				}.keyboardShortcut(.rightArrow)
 
 				Button("↓") {
-					game.move(.south)
+					game.changeDirection(.south)
 				}.keyboardShortcut(.downArrow)
 
 				Button("←") {
-					game.move(.west)
+					game.changeDirection(.west)
 				}.keyboardShortcut(.leftArrow)
+
+				Button("Tick") {
+					game.tick()
+				}
 			}
-		}
+		}.padding(16)
     }
 }
 
