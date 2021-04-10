@@ -34,7 +34,12 @@ struct GameView: View {
 				}
 			}
 
-			Text("Score: \(game.score)")
+			switch game.state {
+			case .playing:
+				Text("Score: \(game.score)")
+			case .dead:
+				Text("Score: \(game.score) — Game Over")
+			}
 
 			HStack {
 				Button("↑") {
@@ -55,6 +60,10 @@ struct GameView: View {
 
 				Button("Tick") {
 					game.tick()
+				}
+
+				Button("Restart") {
+					game.restart()
 				}
 			}
 		}.padding(16)

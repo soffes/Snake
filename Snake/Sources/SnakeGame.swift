@@ -2,6 +2,11 @@ struct SnakeGame {
 
 	// MARK: - Types
 
+	enum State {
+		case playing
+		case dead
+	}
+
 	enum Thing {
 		case empty
 		case snakeHead
@@ -11,19 +16,22 @@ struct SnakeGame {
 
 	// MARK: - Properties
 
+	var state: State = .playing
+
 	private(set) var matrix: Matrix<Thing>
 	private(set) var score = 0
 
 	private var currentDirection: Direction = .west
 
 	/// Snake coordinates. `first` is the head and `last` is the tail
-	var snakeCoordinates: [Coordinate] {
+	var snakeCoordinates = [Coordinate]() {
 		willSet {
 			snakeCoordinates.forEach { matrix[$0] = .empty }
 		}
 
 		didSet {
-			updateSnakeCells()
+			snakeCoordinates.forEach { matrix[$0] = .snakeBody }
+			matrix[snakeCoordinates[0]] = .snakeHead
 		}
 	}
 
@@ -31,27 +39,31 @@ struct SnakeGame {
 
 	init(width: Int, height: Int) {
 		matrix = Matrix(rows: height, columns: width, defaultValue: Thing.empty)
-
-		let head = Coordinate(x: width / 2, y: height / 2)
-		let body = head.neighbor(in: .east)
-		snakeCoordinates = [head, body]
-
-		updateSnakeCells()
-		generateFruit()
+		restart()
 	}
 
 	// MARK: - Manipulation
 
 	mutating func tick() {
+		guard state == .playing else {
+			return
+		}
+
 		moveSnake(currentDirection)
-
-		// Check for collisions with either fruit, snake, or wall
-
-		// If fruit, increase score, grow snake, and spawn new fruit
 	}
 
 	mutating func changeDirection(_ direction: Direction) {
 		currentDirection = direction
+	}
+
+	mutating func restart() {
+		matrix.reset()
+
+		let head = Coordinate(x: matrix.numberOfColumns / 2, y: matrix.numberOfRows / 2)
+		let body = head.neighbor(in: .east)
+		snakeCoordinates = [head, body]
+
+		generateFruit()
 	}
 
 	// MARK: - Private
@@ -110,12 +122,7 @@ struct SnakeGame {
 		matrix[coordinate] = .fruit
 	}
 
-	private func die() {
-		print("you're dead")
-	}
-
-	private mutating func updateSnakeCells() {
-		snakeCoordinates.forEach { matrix[$0] = .snakeBody }
-		matrix[snakeCoordinates[0]] = .snakeHead
+	private mutating func die() {
+		state = .dead
 	}
 }

@@ -23,6 +23,7 @@ struct Matrix<Element> {
 
 	let numberOfRows: Int
 	let numberOfColumns: Int
+	private let defaultValue: Element
 
 	var rows: [Row] {
 		(0..<numberOfRows).map(Row.init)
@@ -33,10 +34,11 @@ struct Matrix<Element> {
 
 	// MARK: - Initializers
 
-	init(rows: Int, columns: Int, defaultValue: Element) {
-		elements = Array(repeating: Array(repeating: defaultValue, count: rows), count: columns)
-		numberOfRows = rows
-		numberOfColumns = columns
+	init(rows numberOfRows: Int, columns numberOfColumns: Int, defaultValue: Element) {
+		self.defaultValue = defaultValue
+		self.numberOfRows = numberOfRows
+		self.numberOfColumns = numberOfColumns
+		elements = Array(repeating: Array(repeating: defaultValue, count: numberOfRows), count: numberOfColumns)
 	}
 
 	// MARK: - Subscript
@@ -73,5 +75,11 @@ struct Matrix<Element> {
 		elements[y].enumerated().map { x, element in
 			Cell(coordinate: Coordinate(x: x, y: y), element: element)
 		}
+	}
+
+	// MARK: - Resetting
+
+	mutating func reset() {
+		elements = Array(repeating: Array(repeating: defaultValue, count: numberOfRows), count: numberOfColumns)
 	}
 }
