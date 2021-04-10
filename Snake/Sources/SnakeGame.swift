@@ -47,11 +47,12 @@ struct SnakeGame {
 	// MARK: - Private
 
 	private mutating func moveSnake(_ direction: Direction) {
-		guard let head = snakeCoordinates.first, let tail = snakeCoordinates.popLast() else {
+		guard let head = snakeCoordinates.first else {
 			assertionFailure("Missing snake extremities")
 			return
 		}
 
+		// Find next head position
 		var newHead = head
 		switch currentDirection {
 		case .north:
@@ -64,26 +65,43 @@ struct SnakeGame {
 			newHead.x -= 1
 		}
 
+		// Check if new head is in bounds
 		if !inBounds(newHead) {
 			die()
 			return
 		}
 
+		// Check collisions
+		let foundFruit: Bool
 		switch matrix[newHead] {
 		case .fruit:
 			score += 1
-			generateFruit()
+			foundFruit = true
 		case .snake:
 			die()
 			return
 		case .empty:
-			break
+			foundFruit = false
 		}
 
-		matrix[tail] = .empty
+		// Remove tail snake
+		if !foundFruit {
+			guard let tail = snakeCoordinates.popLast() else {
+				assertionFailure("Missing snake tail")
+				return
+			}
 
+			matrix[tail] = .empty
+		}
+
+		// Move head
 		snakeCoordinates.insert(newHead, at: 0)
 		matrix[newHead] = .snake
+
+		// Generate more fruit
+		if foundFruit {
+			generateFruit()
+		}
 	}
 
 	private mutating func generateFruit() {
@@ -99,7 +117,7 @@ struct SnakeGame {
 	}
 
 	private func inBounds(_ coordinate: Coordinate) -> Bool {
-		coordinate.x > 0 && coordinate.y > 0 && coordinate.x < matrix.numberOfColumns &&
+		coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < matrix.numberOfColumns &&
 			coordinate.y < matrix.numberOfRows
 	}
 
