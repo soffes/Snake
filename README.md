@@ -2,6 +2,8 @@
 
 Snake implemented in SwiftUI for UI. Inspired by [this amazing tweet](https://twitter.com/neilsardesai/status/1379185826920300545).
 
+![Demo](demo.gif)
+
 ## Live Streams
 
 I did all of this will streaming. Here are links to those streams:
