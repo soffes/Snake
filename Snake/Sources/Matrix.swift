@@ -61,6 +61,12 @@ struct Matrix<Element> {
 		}
 	}
 
+	// MARK: - Bounds Checking
+
+	func inBounds(_ coordinate: Coordinate) -> Bool {
+		coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < numberOfColumns && coordinate.y < numberOfRows
+	}
+
 	// MARK: - Accessing Elements
 
 	func cells(inRow y: Int) -> [Cell<Element>] {

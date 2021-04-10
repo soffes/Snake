@@ -6,8 +6,11 @@ extension SnakeGame.Thing {
 		case .empty:
 			return nil
 
-		case .snake:
+		case .snakeHead:
 			return Color.green
+
+		case .snakeBody:
+			return Color(red: 0, green: 0.33, blue: 0)
 
 		case .fruit:
 			return Color.red

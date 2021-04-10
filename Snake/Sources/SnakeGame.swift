@@ -4,7 +4,8 @@ struct SnakeGame {
 
 	enum Thing {
 		case empty
-		case snake
+		case snakeHead
+		case snakeBody
 		case fruit
 	}
 
@@ -16,17 +17,26 @@ struct SnakeGame {
 	private var currentDirection: Direction = .west
 
 	/// Snake coordinates. `first` is the head and `last` is the tail
-	var snakeCoordinates: [Coordinate]
+	var snakeCoordinates: [Coordinate] {
+		willSet {
+			snakeCoordinates.forEach { matrix[$0] = .empty }
+		}
+
+		didSet {
+			updateSnakeCells()
+		}
+	}
 
 	// MARK: - Initializers
 
 	init(width: Int, height: Int) {
 		matrix = Matrix(rows: height, columns: width, defaultValue: Thing.empty)
 
-		let center = Coordinate(x: width / 2, y: height / 2)
-		snakeCoordinates = [center, Coordinate(x: center.x + 1, y: center.y)]
-		snakeCoordinates.forEach { matrix[$0] = .snake }
+		let head = Coordinate(x: width / 2, y: height / 2)
+		let body = head.neighbor(in: .east)
+		snakeCoordinates = [head, body]
 
+		updateSnakeCells()
 		generateFruit()
 	}
 
@@ -53,20 +63,10 @@ struct SnakeGame {
 		}
 
 		// Find next head position
-		var newHead = head
-		switch currentDirection {
-		case .north:
-			newHead.y -= 1
-		case .east:
-			newHead.x += 1
-		case .south:
-			newHead.y += 1
-		case .west:
-			newHead.x -= 1
-		}
+		let newHead = head.neighbor(in: currentDirection)
 
 		// Check if new head is in bounds
-		if !inBounds(newHead) {
+		if !matrix.inBounds(newHead) {
 			die()
 			return
 		}
@@ -77,26 +77,20 @@ struct SnakeGame {
 		case .fruit:
 			score += 1
 			foundFruit = true
-		case .snake:
+		case .snakeBody, .snakeHead:
 			die()
 			return
 		case .empty:
 			foundFruit = false
 		}
 
-		// Remove tail snake
+		// Remove tail snake if we aren’t growing
 		if !foundFruit {
-			guard let tail = snakeCoordinates.popLast() else {
-				assertionFailure("Missing snake tail")
-				return
-			}
-
-			matrix[tail] = .empty
+			snakeCoordinates.removeLast()
 		}
 
 		// Move head
 		snakeCoordinates.insert(newHead, at: 0)
-		matrix[newHead] = .snake
 
 		// Generate more fruit
 		if foundFruit {
@@ -116,12 +110,12 @@ struct SnakeGame {
 		matrix[coordinate] = .fruit
 	}
 
-	private func inBounds(_ coordinate: Coordinate) -> Bool {
-		coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < matrix.numberOfColumns &&
-			coordinate.y < matrix.numberOfRows
-	}
-
 	private func die() {
 		print("you're dead")
+	}
+
+	private mutating func updateSnakeCells() {
+		snakeCoordinates.forEach { matrix[$0] = .snakeBody }
+		matrix[snakeCoordinates[0]] = .snakeHead
 	}
 }
