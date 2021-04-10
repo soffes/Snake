@@ -59,9 +59,10 @@ struct SnakeGame {
 	mutating func restart() {
 		matrix.reset()
 
+		currentDirection = .west
 		let head = Coordinate(x: matrix.numberOfColumns / 2, y: matrix.numberOfRows / 2)
-		let body1 = head.neighbor(in: .east)
-		let body2 = body1.neighbor(in: .east)
+		let body1 = head.neighbor(in: currentDirection.opposite)
+		let body2 = body1.neighbor(in: currentDirection.opposite)
 		snakeCoordinates = [head, body1, body2]
 
 		generateFruit()

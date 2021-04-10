@@ -20,7 +20,13 @@ extension SnakeGame.Thing {
 
 struct GameView: View {
 
+	// MARK: - Properties
+
 	@State var game = SnakeGame(width: 15, height: 15)
+
+	private let timer = Timer.publish(every: 1 / 3, on: .main, in: .common).autoconnect()
+
+	// MARK: - View
 
     var body: some View {
 		VStack {
@@ -63,12 +69,12 @@ struct GameView: View {
 				Button("←") {
 					game.changeDirection(.west)
 				}.keyboardShortcut(.leftArrow)
-
-				Button("Tick") {
-					game.tick()
-				}
 			}
-		}.padding(16)
+		}
+		.padding(16)
+		.onReceive(timer) { _ in
+			game.tick()
+		}
     }
 }
 
