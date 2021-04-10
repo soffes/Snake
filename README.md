@@ -2,7 +2,7 @@
 
 Snake implemented in SwiftUI for UI. Inspired by [this amazing tweet](https://twitter.com/neilsardesai/status/1379185826920300545).
 
-![Demo](demo.gif)
+<img src="demo.gif" alt="Snake demo" style="max-width:483px">
 
 ## Live Streams
 
