@@ -1,3 +1,4 @@
+import AppKit
 import SwiftUI
 
 extension SnakeGame.Thing {
@@ -24,7 +25,7 @@ struct GameView: View {
 
 	@State var game = SnakeGame(width: 15, height: 15)
 
-	private let timer = Timer.publish(every: 1 / 3, on: .main, in: .common).autoconnect()
+	private let timer = Timer.publish(every: 1 / 4, on: .main, in: .common).autoconnect()
 
 	// MARK: - View
 
@@ -52,30 +53,40 @@ struct GameView: View {
 					}
 				}
 			}
-
-			HStack {
-				Button("↑") {
-					game.changeDirection(.north)
-				}.keyboardShortcut(.upArrow)
-
-				Button("→") {
-					game.changeDirection(.east)
-				}.keyboardShortcut(.rightArrow)
-
-				Button("↓") {
-					game.changeDirection(.south)
-				}.keyboardShortcut(.downArrow)
-
-				Button("←") {
-					game.changeDirection(.west)
-				}.keyboardShortcut(.leftArrow)
-			}
 		}
 		.padding(16)
 		.onReceive(timer) { _ in
 			game.tick()
 		}
+		.background(KeyEventHandling() { event in
+			handleKeyboardEvent(event)
+		})
     }
+
+	// MARK: - Private
+
+	private func handleKeyboardEvent(_ event: NSEvent) {
+		switch event.keyCode {
+		// Left arrow
+		case 123:
+			game.changeDirection(.west)
+
+		// Right arrow
+		case 124:
+			game.changeDirection(.east)
+
+		// Down arrow
+		case 125:
+			game.changeDirection(.south)
+
+		// Up arrow
+		case 126:
+			game.changeDirection(.north)
+
+		default:
+			break
+		}
+	}
 }
 
 struct ContentView_Previews: PreviewProvider {
