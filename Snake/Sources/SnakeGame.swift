@@ -60,10 +60,13 @@ struct SnakeGame {
 		matrix.reset()
 
 		let head = Coordinate(x: matrix.numberOfColumns / 2, y: matrix.numberOfRows / 2)
-		let body = head.neighbor(in: .east)
-		snakeCoordinates = [head, body]
+		let body1 = head.neighbor(in: .east)
+		let body2 = body1.neighbor(in: .east)
+		snakeCoordinates = [head, body1, body2]
 
 		generateFruit()
+		score = 0
+		state = .playing
 	}
 
 	// MARK: - Private
